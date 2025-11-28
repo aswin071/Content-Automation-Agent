@@ -4,6 +4,8 @@ from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
 from content_ai_agent.tools.youtube_api import YouTubeTool
+from content_ai_agent.tools.serp_api import SerpAPITool
+from content_ai_agent.models import TopicFinderOutput, ContentResearchOutput, ScriptOutput
 
 # If you want to run a snippet of code before or after the crew starts,
 # you can use the @before_kickoff and @after_kickoff decorators
@@ -78,7 +80,7 @@ class ContentAiAgent():
     def topic_finder(self) -> Agent:
         return Agent(
             config=self.agents_config['topic_finder'],
-            tools=[YouTubeTool()],  # Add YouTubeTool(), SerpAPITool() later
+            tools=[YouTubeTool(), SerpAPITool()],
             verbose=True
         )
 
@@ -86,7 +88,7 @@ class ContentAiAgent():
     def content_researcher(self) -> Agent:
         return Agent(
             config=self.agents_config['content_researcher'],
-            tools=[],  # Add WebSearchTool() later
+            tools=[SerpAPITool()],
             verbose=True
         )
 
@@ -101,17 +103,24 @@ class ContentAiAgent():
     # ===== TASKS =====
     @task
     def find_trending_topics(self) -> Task:
-        return Task(config=self.tasks_config['find_trending_topics'])
+        return Task(
+            config=self.tasks_config['find_trending_topics'],
+            output_pydantic=TopicFinderOutput
+        )
 
     @task
     def research_content(self) -> Task:
-        return Task(config=self.tasks_config['research_content'])
+        return Task(
+            config=self.tasks_config['research_content'],
+            output_pydantic=ContentResearchOutput
+        )
 
     @task
     def write_script(self) -> Task:
         return Task(
             config=self.tasks_config['write_script'],
-            output_file='script.md'  # Final output
+            output_pydantic=ScriptOutput,
+            output_file='script.json'  # Final output as JSON
         )
 
     # ===== CREW =====
