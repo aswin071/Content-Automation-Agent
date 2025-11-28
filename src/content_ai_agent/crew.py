@@ -1,4 +1,5 @@
-from tabnanny import verbose
+from os import getenv
+from pathlib import Path
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
@@ -6,6 +7,14 @@ from typing import List
 from content_ai_agent.tools.youtube_api import YouTubeTool
 from content_ai_agent.tools.serp_api import SerpAPITool
 from content_ai_agent.models import TopicFinderOutput, ContentResearchOutput, ScriptOutput
+from dotenv import load_dotenv
+
+# Load .env from project root (content_ai_agent/.env)
+env_path = Path(__file__).resolve().parents[2] / ".env"
+load_dotenv(env_path)
+
+# Get model once
+LLM_MODEL = getenv('MODEL', 'anthropic/claude-3-5-haiku-20241022')
 
 # If you want to run a snippet of code before or after the crew starts,
 # you can use the @before_kickoff and @after_kickoff decorators
@@ -80,6 +89,7 @@ class ContentAiAgent():
     def topic_finder(self) -> Agent:
         return Agent(
             config=self.agents_config['topic_finder'],
+            llm=LLM_MODEL,
             tools=[YouTubeTool(), SerpAPITool()],
             verbose=True
         )
@@ -88,6 +98,7 @@ class ContentAiAgent():
     def content_researcher(self) -> Agent:
         return Agent(
             config=self.agents_config['content_researcher'],
+            llm=LLM_MODEL,
             tools=[SerpAPITool()],
             verbose=True
         )
@@ -96,6 +107,7 @@ class ContentAiAgent():
     def script_writer(self) -> Agent:
         return Agent(
             config=self.agents_config['script_writer'],
+            llm=LLM_MODEL,
             tools=[],  # No tools needed - uses LLM directly
             verbose=True
         )
