@@ -1,0 +1,154 @@
+# default agent-task
+# research_task:
+#   description: >
+#     Conduct a thorough research about {topic}
+#     Make sure you find any interesting and relevant information given
+#     the current year is {current_year}.
+#   expected_output: >
+#     A list with 10 bullet points of the most relevant information about {topic}
+#   agent: researcher
+
+# reporting_task:
+#   description: >
+#     Review the context you got and expand each topic into a full section for a report.
+#     Make sure the report is detailed and contains any and all relevant information.
+#   expected_output: >
+#     A fully fledged report with the main topics, each with a full section of information.
+#     Formatted as markdown without '```'
+#   agent: reporting_analyst
+
+#custom agent-task
+find_trending_topics:
+  description: >
+    If a specific topic is provided: "{topic}" - search YouTube for the best performing content about this exact topic.
+    If no topic provided: Find 5 trending topics in {niche} that have viral potential.
+
+    IMPORTANT: For EACH topic found, you MUST gather and return complete analytics data:
+    1. Video title and platform (YouTube, TikTok, Instagram, etc.)
+    2. Video URL and creator/channel name
+    3. Complete analytics:
+       - View count (e.g., "1.2M views")
+       - Like count (e.g., "45K likes")
+       - Comment count (e.g., "2.3K comments")
+       - Share count if available
+       - Engagement rate percentage
+       - Published date
+    4. Why this topic has viral potential
+    5. Key angles to cover
+    6. Competition level (Low/Medium/High)
+
+    Use YouTube Trending Search tool to find real, accurate analytics data.
+    Sort results by most views, likes, and shares for best analysis.
+  expected_output: >
+    List of 5 trending topics with COMPLETE analytics data including:
+    - Title, platform, URL, creator
+    - Full analytics: views, likes, comments, shares, engagement rate, published date
+    - Why it works analysis
+    - Key angles to cover
+    - Competition level
+  agent: topic_finder
+
+
+research_content:
+  description: >
+    Research the selected topic: {topic}
+    Gather key facts, statistics, expert opinions, and audience pain points.
+  expected_output: >
+    Structured research doc with: key points, stats, quotes, hooks, audience insights
+  agent: content_researcher
+
+write_script:
+  description: >
+    Create a HIGHLY ENGAGING, HUMAN-CONTEXTUAL script for {platform} about: {topic}
+
+    CRITICAL PLATFORM-SPECIFIC REQUIREMENTS:
+
+    FOR YOUTUBE:
+    - Hook: Must grab attention in first 5 seconds with a provocative question, bold statement, or surprising fact
+    - Length: 8-12 minutes for long-form, 30-60 seconds for Shorts
+    - Tone: Conversational yet authoritative, like talking to a friend who trusts your expertise
+    - Structure: Hook → Problem → Solution → Proof/Examples → Action Steps → CTA
+    - Pacing: Moderate with clear chapter breaks, maintain energy throughout
+
+    FOR INSTAGRAM:
+    - Hook: Visual + text combo that stops mid-scroll (first 2 seconds critical)
+    - Length: 15-30 seconds for Reels, 60-90 seconds for in-depth
+    - Tone: Casual, authentic, relatable - speak like a peer, not a lecturer
+    - Structure: Pattern interrupt → Quick value → Emotional connection → Clear CTA
+    - Pacing: Fast-paced, punchy, every second counts
+
+    FOR TIKTOK:
+    - Hook: Immediate value proposition or controversial take (0-3 seconds)
+    - Length: 15-45 seconds (sweet spot: 21-34 seconds)
+    - Tone: Energetic, raw, unfiltered - Gen Z authentic
+    - Structure: Hook → Fast delivery of 3-5 key points → Loop back to hook
+    - Pacing: Extremely fast, no fluff, trending sound integration
+
+    FOR NEWSLETTER:
+    - Hook: Subject line + opening paragraph that creates curiosity gap
+    - Length: 300-800 words (3-5 minute read)
+    - Tone: Professional yet personable, storytelling approach
+    - Structure: Compelling intro → Story/Context → Insights/Data → Actionable takeaways → P.S. with personal touch
+    - Pacing: Scannable with subheadings, bullet points, bold text
+
+    FOR SKOOL COMMUNITY:
+    - Hook: Question or challenge that sparks discussion
+    - Length: 200-500 words + discussion prompts
+    - Tone: Collaborative, community-focused, vulnerable and authentic
+    - Structure: Personal experience → Insight → Community question → Resource/Value add
+    - Pacing: Conversational, encourages comments and engagement
+
+    HUMAN-CONTEXTUAL REQUIREMENTS (ALL PLATFORMS):
+    1. Write like a REAL PERSON talking, not an AI or corporate robot
+    2. Use contractions (don't, you're, we'll) and natural speech patterns
+    3. Include relatable examples, personal anecdotes, or case studies
+    4. Address audience pain points with empathy and understanding
+    5. Use sensory language and vivid descriptions to paint mental pictures
+    6. Vary sentence length for natural rhythm (mix short punchy sentences with longer flowing ones)
+    7. Include strategic pauses, emphasis words, and emotional beats
+    8. End with a CTA that feels like a natural next step, not a sales pitch
+    9. Use "you" language to make it personal and direct
+    10. Include pattern interrupts to maintain attention (unexpected facts, questions, shifts)
+
+    STORYTELLING ELEMENTS TO INCLUDE:
+    - Open loop: Create curiosity that gets resolved later
+    - Contrast: Before/after, problem/solution
+    - Specificity: Use exact numbers, names, dates (not vague generalities)
+    - Emotion: Tap into desire, fear, frustration, hope, excitement
+    - Authority: Subtle credibility builders without bragging
+  expected_output: >
+    COMPLETE, READY-TO-USE script with:
+    - Powerful hook designed for the specific platform
+    - Human-written introduction that builds rapport
+    - Main content with natural flow, storytelling, and emotional resonance
+    - Key insights that provide genuine value
+    - Emotional elements and relatable moments
+    - Smooth transitions between ideas
+    - Natural, compelling CTA
+    - Memorable closing
+    - Platform-specific guidelines (tone, pacing, length, visual style)
+    - Detailed visual suggestions
+    - Thumbnail ideas (video platforms)
+    - Formatting notes specific to the platform
+  agent: script_writer
+
+optimize_social_media:
+  description: >
+    Using the script and research data, optimize the content for {platform} by:
+    1. Creating a compelling caption that combines hook, content summary, and CTA
+    2. Generating 8-15 highly relevant, trending hashtags using Hashtag Generator tool
+    3. Crafting detailed visual descriptions for images/videos
+    4. Specifying the exact post type (YouTube Video, Shorts, Reel, Carousel, Story, Tweet, etc.)
+    5. Determining optimal posting time using Posting Time Optimizer tool based on platform, niche {niche}, and audience
+    6. Predicting engagement rate using Engagement Analyzer tool with topic {topic}, platform {platform}, and content quality factors
+
+    Use all three specialized tools (Hashtag Generator, Posting Time Optimizer, Engagement Analyzer) to provide accurate, data-driven recommendations.
+  expected_output: >
+    Complete social media optimization package with:
+    - Caption (hook + summary + CTA)
+    - Hashtags (8-15 trending, relevant tags)
+    - Visual Description (detailed image/video suggestions)
+    - Post Type (specific format)
+    - Best Posting Time (optimal window with timezone and reasoning)
+    - Estimated Engagement Rate (prediction with analysis breakdown)
+  agent: social_media_optimizer

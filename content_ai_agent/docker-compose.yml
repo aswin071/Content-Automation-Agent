@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  content-automation-agent:
+    build: .
+    container_name: content-automation-api
+    ports:
+      - "8000:8000"
+    environment:
+      - CLAUDE_API_KEY=${CLAUDE_API_KEY}
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+      - SERP_API_KEY=${SERP_API_KEY}
+      - MODEL=${MODEL:-anthropic/claude-3-5-haiku-20241022}
+    volumes:
+      - ./content_output.json:/app/content_output.json
+    restart: unless-stopped
+    networks:
+      - content-automation-network
+
+networks:
+  content-automation-network:
+    driver: bridge
